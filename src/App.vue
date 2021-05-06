@@ -1,7 +1,17 @@
 <template>
   <settings @new-game="newGame" @reset-game="resetGame"></settings>
-  <card-list :cards="game.cards" @card-clicked="cardClicked"></card-list>
-  <game-over :win="game.win" :lose="game.lose" @new-game="newGame" @reset-game="resetGame"></game-over>
+  <card-list
+    :cards="game.cards"
+    :numLeftover="game.leftovers.length"
+    :numFlipped="game.flipped.length"
+    @card-clicked="cardClicked"
+  ></card-list>
+  <game-over
+    :win="game.win"
+    :lose="game.lose"
+    @new-game="newGame"
+    @reset-game="resetGame"
+  ></game-over>
 </template>
 
 <script>

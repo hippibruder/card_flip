@@ -43,6 +43,10 @@ export default class Game {
         return this.cards.filter((c) => !c.removed);
     }
 
+    get flipped() {
+        return this.leftovers.filter(c => c.flipped);
+    }
+
     get win() {
         if (this.numCards === 0) {
             return false;
@@ -56,8 +60,7 @@ export default class Game {
             return false;
         }
 
-        const flipped = this.leftovers.filter(c => c.flipped);
-        return flipped.length === 0;
+        return this.flipped.length === 0;
     }
 }
 

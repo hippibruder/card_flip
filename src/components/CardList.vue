@@ -1,4 +1,7 @@
 <template>
+  <div class="card-list-info">
+    Flipped: {{ numFlipped }}/{{ numLeftover }}
+  </div>
   <div class="card-list">
     <card
       v-for="(c, i) in cards"
@@ -19,8 +22,9 @@ export default {
     Card,
   },
   props: {
-    msg: String,
     cards: Array,
+    numFlipped: Number,
+    numLeftover: Number,
   },
   methods: {
     cardClicked(index, flipped) {
@@ -48,6 +52,6 @@ export default {
 <style scoped>
 .card-list {
   display: flex;
-  margin: 3vw;
+  margin: .4vh 2vw 0vh;
 }
 </style>
