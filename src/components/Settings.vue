@@ -13,8 +13,6 @@
 export default {
   name: "Settings",
   props: {
-    msg: String,
-    cards: Array,
   },
   data() {
     return {
@@ -36,21 +34,21 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .settings {
   display: flex;
   justify-content: center;
   align-items: center;
 
-  background: linear-gradient(-90deg, rgba(255, 0, 0, 0.70), rgba(0, 128, 0, 0.55));
+  background: linear-gradient(-90deg, rgba(255, 0, 0, 0.70), rgba(0, 128, 0, 0.70));
   width: 100%;
   height: 30px;
   margin-bottom: 25px;
 
-  -webkit-box-shadow: 0px 2px 15px -12px rgba(0, 0, 0, 0.57);
-  -moz-box-shadow: 0px 2px 15px -12px rgba(0, 0, 0, 0.57);
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.57);
+  border: solid 1px;
+  border-color: slategray;
+
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.50);
 }
 
 .settings_item {

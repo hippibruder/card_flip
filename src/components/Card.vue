@@ -43,16 +43,16 @@ s
 .card {
   margin: 5%;
 
-  border: 1px solid black;
+  border: 1px solid;
+  border-color: rgba(0, 0, 0, 0.50);
+
   background-color: red;
 
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
     1px 1px 0 #000;
   color: whitesmoke;
 
-  -webkit-box-shadow: 0px 2px 15px -12px rgba(0, 0, 0, 0.57);
-  -moz-box-shadow: 0px 2px 15px -12px rgba(0, 0, 0, 0.57);
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.57);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.50);
 }
 
 .card-content {
