@@ -1,13 +1,13 @@
 <template>
-  <settings @start-game="startGame"></settings>
+  <settings @start-game="newGame"></settings>
   <card-list :cards="game.cards" @card-clicked="cardClicked"></card-list>
-  <div class="overlay win" v-show="win" @click="restartGame">Win!</div>
-  <div class="overlay lose" v-show="lose" @click="restartGame">Lose!</div>
+  <game-over :win="win" :lose="lose" @new-game="newGame" @restart-game="restartGame"></game-over>
 </template>
 
 <script>
 import CardList from "./components/CardList.vue";
 import Settings from "./components/Settings.vue";
+import GameOver from "./components/GameOver.vue";
 import Game from "./Game.js";
 
 export default {
@@ -15,20 +15,26 @@ export default {
   components: {
     CardList,
     Settings,
+    GameOver,
   },
   data() {
     return {
       game: new Game(0),
+      numCards: 0,
       win: false,
       lose: false,
     };
   },
   methods: {
-    startGame(numCards) {
-      this.game = new Game(numCards);
+    newGame(numCards) {
+      if (numCards !== undefined) {
+        this.numCards = numCards;
+      }
+      this.game = new Game(this.numCards);
     },
     restartGame() {
-      this.game.restart()
+      this.game.restart();
+      this.updateGameState();
     },
     cardClicked(index) {
       this.game.removeCard(index);
@@ -51,27 +57,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #18222c;
   margin-top: 6px;
-}
-
-.overlay {
-  position: absolute;
-  top: 10vw;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-
-  font-size: 20vw;
-  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000,
-    2px 2px 0 #000;
-}
-
-.win {
-  color: green;
-}
-
-.lose {
-  color: red;
 }
 </style>

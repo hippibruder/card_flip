@@ -2,15 +2,21 @@
 export default class Game {
     constructor(numCards) {
         this.numCards = numCards;
-        this.restart()
+        this.init()
     }
 
-    restart() {
+    init() {
         this.cards = [];
         for (let index = 0; index < this.numCards; index++) {
             let flipped = Boolean(Math.floor(Math.random() * 2));
-            this.cards.push({ flipped: flipped, removed: false });
+            this.cards.push(new Card(flipped));
         }
+    }
+
+    restart() {
+        this.cards.forEach(card => {
+            card.reset();
+        });
     }
 
     removeCard(index) {
@@ -52,5 +58,18 @@ export default class Game {
 
         const notFlipped = this.leftovers.filter((c) => !c.flipped);
         return this.leftovers.length === notFlipped.length;
+    }
+}
+
+class Card {
+    constructor(flipped) {
+        this.flippedOriginal = flipped;
+        this.flipped = flipped;
+        this.removed = false;
+    }
+
+    reset() {
+        this.flipped = this.flippedOriginal;
+        this.removed = false;
     }
 }
