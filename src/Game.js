@@ -13,7 +13,7 @@ export default class Game {
         }
     }
 
-    restart() {
+    reset() {
         this.cards.forEach(card => {
             card.reset();
         });
@@ -56,8 +56,8 @@ export default class Game {
             return false;
         }
 
-        const notFlipped = this.leftovers.filter((c) => !c.flipped);
-        return this.leftovers.length === notFlipped.length;
+        const flipped = this.leftovers.filter(c => c.flipped);
+        return flipped.length === 0;
     }
 }
 

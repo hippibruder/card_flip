@@ -5,7 +5,8 @@
       <input id="num-cards" v-model.number="numCards" @wheel="handleScroll" />
     </div>
 
-    <input class="settings_item button" type="submit" value="New Game" />
+    <input class="settings_item button" type="button" value="New Game" @click="newGame"/>
+    <input class="settings_item button" type="button" value="Reset Game" @click="resetGame"/>
   </form>
 </template>
 
@@ -20,16 +21,19 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      this.$emit("start-game", this.numCards);
+    newGame() {
+      this.$emit("new-game", this.numCards);
+    },
+    resetGame() {
+      this.$emit("reset-game");
     },
     handleScroll(event) {
       this.numCards += event.deltaY < 0 ? 1 : -1;
-      this.onSubmit();
+      this.newGame();
     },
   },
   created() {
-    this.onSubmit();
+    this.newGame();
   },
 };
 </script>
@@ -42,7 +46,7 @@ export default {
 
   background: linear-gradient(-90deg, rgba(255, 0, 0, 0.70), rgba(0, 128, 0, 0.70));
   width: 100%;
-  height: 30px;
+  height: 35px;
   margin-bottom: 25px;
 
   border: solid 1px;
@@ -55,9 +59,16 @@ export default {
   flex: 1;
   margin-left: 10px;
   margin-right: 10px;
+  size: 100vw;
 }
 
-.settings .button {
-  margin: 3px;
+#num-cards {
+  width: 30px;
+  text-align: center;
+  margin-left: 5px;
+}
+
+.settings_item.button {
+  font-size: 120%;
 }
 </style>

@@ -13,8 +13,8 @@
       <input
         class="game-over-button"
         type="button"
-        value="Restart Game"
-        @click="restartGame"
+        value="Reset Game"
+        @click="resetGame"
       />
     </div>
   </div>
@@ -47,8 +47,8 @@ export default {
     newGame() {
       this.$emit("new-game");
     },
-    restartGame() {
-      this.$emit("restart-game");
+    resetGame() {
+      this.$emit("reset-game");
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
-  <settings @start-game="newGame"></settings>
+  <settings @new-game="newGame" @reset-game="resetGame"></settings>
   <card-list :cards="game.cards" @card-clicked="cardClicked"></card-list>
-  <game-over :win="game.win" :lose="game.lose" @new-game="newGame" @restart-game="restartGame"></game-over>
+  <game-over :win="game.win" :lose="game.lose" @new-game="newGame" @reset-game="resetGame"></game-over>
 </template>
 
 <script>
@@ -32,8 +32,8 @@ export default {
       }
       this.game = new Game(this.numCards);
     },
-    restartGame() {
-      this.game.restart();
+    resetGame() {
+      this.game.reset();
     },
     cardClicked(index) {
       this.game.removeCard(index);
