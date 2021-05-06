@@ -1,7 +1,7 @@
 <template>
   <settings @start-game="newGame"></settings>
   <card-list :cards="game.cards" @card-clicked="cardClicked"></card-list>
-  <game-over :win="win" :lose="lose" @new-game="newGame" @restart-game="restartGame"></game-over>
+  <game-over :win="game.win" :lose="game.lose" @new-game="newGame" @restart-game="restartGame"></game-over>
 </template>
 
 <script>
@@ -34,19 +34,10 @@ export default {
     },
     restartGame() {
       this.game.restart();
-      this.updateGameState();
     },
     cardClicked(index) {
       this.game.removeCard(index);
-      this.updateGameState();
     },
-    updateGameState() {
-      this.lose = this.game.lose;
-      this.win = this.game.win;
-    },
-  },
-  updated() {
-    this.updateGameState();
   },
 };
 </script>
