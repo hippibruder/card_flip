@@ -1,9 +1,16 @@
 <template>
-  <settings @new-game="newGame" @reset-game="resetGame"></settings>
+  <settings
+    @new-game="newGame"
+    @reset-game="resetGame"
+    @show-hints-changed="showHintsChanged"
+  ></settings>
   <card-list
     :cards="game.cards"
     :numLeftover="game.leftovers.length"
     :numFlipped="game.flipped.length"
+    :showHints="showHints"
+    :solvable="game.solvable"
+    :nextMove="game.getNextMove()"
     @card-clicked="cardClicked"
   ></card-list>
   <game-over
@@ -33,6 +40,7 @@ export default {
       numCards: 0,
       win: false,
       lose: false,
+      showHints: false,
     };
   },
   methods: {
@@ -47,6 +55,9 @@ export default {
     },
     cardClicked(index) {
       this.game.removeCard(index);
+    },
+    showHintsChanged(showHints) {
+      this.showHints = showHints;
     },
   },
 };

@@ -62,6 +62,73 @@ export default class Game {
 
         return this.flipped.length === 0;
     }
+
+    getSubGames() {
+        let games = [];
+        let game = [];
+        this.cards.forEach((c, i) => {
+            if (c.removed) {
+                if (game.length > 0) {
+                    games.push(game);
+                    game = []
+                }
+            } else {
+                c.index = i;
+                game.push(c);
+            }
+        });
+        if (game.length > 0) {
+            games.push(game);
+        }
+        return games;
+    }
+
+    static getSolveOrderForGame(game) {
+        let order = [];
+        let nextCardHigher = false;
+        game.forEach(c => {
+            if (nextCardHigher) {
+                order.push(c.index);
+            } else {
+                order.unshift(c.index);
+            }
+            nextCardHigher ^= c.flipped;
+        });
+        if (nextCardHigher) {
+            return order;
+        }
+        return [];
+    }
+
+    getSolveOrder() {
+        let solvable = true;
+        let subGames = this.getSubGames();
+        let order = [];
+        for (const game of subGames) {
+            let subOrder = Game.getSolveOrderForGame(game);
+            if (subOrder.length === 0) {
+                solvable = false;
+                break;
+            }
+            order.push(...subOrder);
+        }
+        if (!solvable) {
+            return []
+        }
+        return order;
+    }
+
+    getNextMove() {
+        let order = this.getSolveOrder();
+        if (order.length === 0) {
+            return -1;
+        }
+        return order[0];
+    }
+
+    get solvable() {
+        return this.getSolveOrder().length > 0;
+    }
 }
 
 class Card {

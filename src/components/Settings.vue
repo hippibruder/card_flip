@@ -5,6 +5,11 @@
       <input id="num-cards" v-model.number="numCards" @wheel="handleScroll" />
     </div>
 
+    <div>
+      <label for="show-hints">Show hints:</label>
+      <input id="show-hints" type="checkbox" v-model="showHints" @change="showHintsChanged" />
+    </div>
+
     <input class="settings_item button" type="button" value="New Game" @click="newGame"/>
     <input class="settings_item button" type="button" value="Reset Game" @click="resetGame"/>
   </form>
@@ -18,6 +23,7 @@ export default {
   data() {
     return {
       numCards: 8,
+      showHints: false,
     };
   },
   methods: {
@@ -30,6 +36,9 @@ export default {
     handleScroll(event) {
       this.numCards += event.deltaY < 0 ? 1 : -1;
       this.newGame();
+    },
+    showHintsChanged() {
+      this.$emit("show-hints-changed", this.showHints);
     },
   },
   created() {

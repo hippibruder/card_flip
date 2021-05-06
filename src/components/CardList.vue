@@ -1,6 +1,10 @@
 <template>
   <div class="card-list-info">
-    Flipped: {{ numFlipped }}/{{ numLeftover }}
+    <div>Flipped: {{ numFlipped }}/{{ numLeftover }}</div>
+    <div v-if="showHints">
+      <div v-show="!solvable">Not solvable!</div>
+      <div v-show="solvable">Next move: {{ nextMove }}</div>
+    </div>
   </div>
   <div class="card-list">
     <card
@@ -25,7 +29,11 @@ export default {
     cards: Array,
     numFlipped: Number,
     numLeftover: Number,
+    showHints: Boolean,
+    solvable: Boolean,
+    nextMove: Number,
   },
+  emits: ["card-clicked"],
   methods: {
     cardClicked(index, flipped) {
       this.$emit("card-clicked", index, flipped);
@@ -50,8 +58,17 @@ export default {
 </script>
 
 <style scoped>
+.card-list-info {
+  display: inline;
+}
+
+.card-list-info * {
+  display: inline-block;
+  margin: 0 5px;
+}
+
 .card-list {
   display: flex;
-  margin: .4vh 2vw 0vh;
+  margin: 0.4vh 2vw 0vh;
 }
 </style>
