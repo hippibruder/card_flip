@@ -1,11 +1,19 @@
 
-export default class Game {
+export {
+    Game,
+    GameSolver,
+}
+
+var events = require('events');
+
+class Game {
     constructor(numCards) {
         this.numCards = numCards;
-        this.init()
+        this.eventEmitter = new events.EventEmitter();
+        this.#init()
     }
 
-    init() {
+    #init() {
         this.cards = [];
         for (let index = 0; index < this.numCards; index++) {
             let flipped = Boolean(Math.floor(Math.random() * 2));
@@ -17,6 +25,7 @@ export default class Game {
         this.cards.forEach(card => {
             card.reset();
         });
+        this.fireOnChange();
     }
 
     removeCard(index) {
@@ -37,6 +46,7 @@ export default class Game {
             const card = this.cards[i];
             card.flipped = !card.flipped;
         });
+        this.fireOnChange();
     }
 
     get leftovers() {
@@ -63,27 +73,71 @@ export default class Game {
         return this.flipped.length === 0;
     }
 
-    getSubGames() {
+    registerOnChange(callback) {
+        this.eventEmitter.on('change', callback);
+    }
+
+    fireOnChange() {
+        this.eventEmitter.emit('change');
+    }
+}
+
+class Card {
+    constructor(flipped) {
+        this.flippedOriginal = flipped;
+        this.flipped = flipped;
+        this.removed = false;
+    }
+
+    reset() {
+        this.flipped = this.flippedOriginal;
+        this.removed = false;
+    }
+}
+
+class GameSolver {
+    constructor(game) {
+        this.game = game === undefined ? new Game() : game;
+        this.game.registerOnChange(() => this.updateOrder());
+        this.updateOrder()
+    }
+
+    get nextMove() {
+        if (this.order.length === 0) {
+            return undefined;
+        }
+        return this.order[0];
+    }
+
+    get solvable() {
+        return this.order.length > 0;
+    }
+
+    updateOrder() {
+        this.order = this.getSolveOrder();
+    }
+
+    #getSubGames() {
         let games = [];
-        let game = [];
-        this.cards.forEach((c, i) => {
+        let subGame = [];
+        this.game.cards.forEach((c, i) => {
             if (c.removed) {
-                if (game.length > 0) {
-                    games.push(game);
-                    game = []
+                if (subGame.length > 0) {
+                    games.push(subGame);
+                    subGame = []
                 }
             } else {
                 c.index = i;
-                game.push(c);
+                subGame.push(c);
             }
         });
-        if (game.length > 0) {
-            games.push(game);
+        if (subGame.length > 0) {
+            games.push(subGame);
         }
         return games;
     }
 
-    static getSolveOrderForGame(game) {
+    static #getSolveOrderForGame(game) {
         let order = [];
         let nextCardHigher = false;
         game.forEach(c => {
@@ -102,10 +156,10 @@ export default class Game {
 
     getSolveOrder() {
         let solvable = true;
-        let subGames = this.getSubGames();
+        let subGames = this.#getSubGames();
         let order = [];
         for (const game of subGames) {
-            let subOrder = Game.getSolveOrderForGame(game);
+            let subOrder = GameSolver.#getSolveOrderForGame(game);
             if (subOrder.length === 0) {
                 solvable = false;
                 break;
@@ -116,30 +170,5 @@ export default class Game {
             return []
         }
         return order;
-    }
-
-    getNextMove() {
-        let order = this.getSolveOrder();
-        if (order.length === 0) {
-            return -1;
-        }
-        return order[0];
-    }
-
-    get solvable() {
-        return this.getSolveOrder().length > 0;
-    }
-}
-
-class Card {
-    constructor(flipped) {
-        this.flippedOriginal = flipped;
-        this.flipped = flipped;
-        this.removed = false;
-    }
-
-    reset() {
-        this.flipped = this.flippedOriginal;
-        this.removed = false;
     }
 }

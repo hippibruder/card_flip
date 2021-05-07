@@ -8,8 +8,8 @@
     :numLeftover="game.leftovers.length"
     :numFlipped="game.flipped.length"
     :showHints="showHints"
-    :solvable="game.solvable"
-    :nextMove="game.getNextMove()"
+    :solvable="gameSolver.solvable"
+    :nextMove="gameSolver.nextMove"
   ></game-info>
   <card-list :cards="game.cards" @card-clicked="cardClicked"></card-list>
   <game-over
@@ -25,7 +25,7 @@ import GameInfo from "./components/GameInfo.vue";
 import CardList from "./components/CardList.vue";
 import Settings from "./components/Settings.vue";
 import GameOver from "./components/GameOver.vue";
-import Game from "./Game.js";
+import { Game, GameSolver } from "./Game.js";
 
 export default {
   name: "App",
@@ -37,7 +37,8 @@ export default {
   },
   data() {
     return {
-      game: new Game(0),
+      game: new Game(),
+      gameSolver: new GameSolver(),
       numCards: 0,
       win: false,
       lose: false,
@@ -50,6 +51,7 @@ export default {
         this.numCards = numCards;
       }
       this.game = new Game(this.numCards);
+      this.gameSolver = new GameSolver(this.game);
     },
     resetGame() {
       this.game.reset();
