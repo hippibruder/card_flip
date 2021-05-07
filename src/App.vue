@@ -4,15 +4,14 @@
     @reset-game="resetGame"
     @show-hints-changed="showHintsChanged"
   ></settings>
-  <card-list
-    :cards="game.cards"
+  <game-info
     :numLeftover="game.leftovers.length"
     :numFlipped="game.flipped.length"
     :showHints="showHints"
     :solvable="game.solvable"
     :nextMove="game.getNextMove()"
-    @card-clicked="cardClicked"
-  ></card-list>
+  ></game-info>
+  <card-list :cards="game.cards" @card-clicked="cardClicked"></card-list>
   <game-over
     :win="game.win"
     :lose="game.lose"
@@ -22,6 +21,7 @@
 </template>
 
 <script>
+import GameInfo from "./components/GameInfo.vue";
 import CardList from "./components/CardList.vue";
 import Settings from "./components/Settings.vue";
 import GameOver from "./components/GameOver.vue";
@@ -30,6 +30,7 @@ import Game from "./Game.js";
 export default {
   name: "App",
   components: {
+    GameInfo,
     CardList,
     Settings,
     GameOver,

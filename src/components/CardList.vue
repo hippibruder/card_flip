@@ -1,11 +1,4 @@
 <template>
-  <div class="card-list-info">
-    <div>Flipped: {{ numFlipped }}/{{ numLeftover }}</div>
-    <div v-if="showHints">
-      <div v-show="!solvable">Not solvable!</div>
-      <div v-show="solvable">Next move: {{ nextMove }}</div>
-    </div>
-  </div>
   <div class="card-list">
     <card
       v-for="(c, i) in cards"
@@ -27,11 +20,6 @@ export default {
   },
   props: {
     cards: Array,
-    numFlipped: Number,
-    numLeftover: Number,
-    showHints: Boolean,
-    solvable: Boolean,
-    nextMove: Number,
   },
   emits: ["card-clicked"],
   methods: {
@@ -58,15 +46,6 @@ export default {
 </script>
 
 <style scoped>
-.card-list-info {
-  display: inline;
-}
-
-.card-list-info * {
-  display: inline-block;
-  margin: 0 5px;
-}
-
 .card-list {
   display: flex;
   margin: 0.4vh 2vw 0vh;

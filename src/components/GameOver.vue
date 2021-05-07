@@ -57,7 +57,7 @@ export default {
 <style scoped>
 .game-over {
   position: absolute;
-  top: 10vw;
+  top: 60px;
   width: 100%;
 }
 

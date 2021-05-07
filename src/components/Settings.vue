@@ -5,7 +5,7 @@
       <input id="num-cards" v-model.number="numCards" @wheel="handleScroll" />
     </div>
 
-    <div>
+    <div class="settings_item">
       <label for="show-hints">Show hints:</label>
       <input id="show-hints" type="checkbox" v-model="showHints" @change="showHintsChanged" />
     </div>
@@ -65,10 +65,8 @@ export default {
 }
 
 .settings_item {
-  flex: 1;
   margin-left: 10px;
   margin-right: 10px;
-  size: 100vw;
 }
 
 #num-cards {
