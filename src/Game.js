@@ -7,9 +7,10 @@ export {
 var events = require('events');
 
 class Game {
-    constructor(numCards) {
+    constructor(numCards, addUndoAction) {
         this.numCards = numCards;
         this.eventEmitter = new events.EventEmitter();
+        this.addUndoAction = addUndoAction;
         this.#init()
     }
 
@@ -32,7 +33,13 @@ class Game {
         if (!this.cards[index].flipped) {
             return;
         }
-        this.cards[index].removed = true;
+
+        this.addUndoAction(() => this._removeCard(index, true));
+        this._removeCard(index, false);
+    }
+
+    _removeCard(index, undo) {
+        this.cards[index].removed = !undo;
         let flips = [];
         const left = index - 1;
         if (left >= 0) {

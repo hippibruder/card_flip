@@ -2,7 +2,7 @@
   <div class="card-list-info">
     <div>Flipped: {{ numFlipped }}/{{ numLeftover }}</div>
     <div v-if="showHints">
-      <div v-show="!solvable">Not solvable!</div>
+      <div v-show="!solvable && numLeftover">Not solvable!</div>
       <div v-show="solvable">Next move: {{ nextMove }}</div>
     </div>
   </div>

@@ -2,6 +2,7 @@
   <settings
     @new-game="newGame"
     @reset-game="resetGame"
+    @undo-move="undoMove"
     @show-hints-changed="showHintsChanged"
   ></settings>
   <game-info
@@ -31,6 +32,7 @@ import CardList from "./components/CardList.vue";
 import Settings from "./components/Settings.vue";
 import GameOver from "./components/GameOver.vue";
 import { Game, GameSolver } from "./Game.js";
+import UndoStack from "./UndoStack.js";
 
 export default {
   name: "App",
@@ -44,6 +46,7 @@ export default {
     return {
       game: new Game(),
       gameSolver: new GameSolver(),
+      undoStack: new UndoStack(),
       numCards: 0,
       win: false,
       lose: false,
@@ -55,11 +58,18 @@ export default {
       if (numCards !== undefined) {
         this.numCards = numCards;
       }
-      this.game = new Game(this.numCards);
+      this.undoStack.reset();
+      this.game = new Game(this.numCards, (undo) =>
+        this.undoStack.addAction(undo)
+      );
       this.gameSolver = new GameSolver(this.game);
     },
     resetGame() {
+      this.undoStack.reset();
       this.game.reset();
+    },
+    undoMove() {
+      this.undoStack.undoAction();
     },
     cardClicked(index) {
       this.game.removeCard(index);
@@ -67,6 +77,17 @@ export default {
     showHintsChanged(showHints) {
       this.showHints = showHints;
     },
+    keydown(e) {
+      if (e.key === "z") {
+        this.undoMove();
+      }
+    },
+  },
+  mounted() {
+    window.addEventListener("keydown", this.keydown);
+  },
+  unmounted() {
+    window.removeEventListener("keydown", this.keydown);
   },
 };
 </script>

@@ -1,15 +1,16 @@
 <template>
-  <form class="settings" @submit.prevent="onSubmit">
+  <form class="settings" @submit.prevent="newGame">
     <div class="settings_item">
-      <label for="num-cards">Number of cards:</label>
+      <label for="num-cards">Cards:</label>
       <input id="num-cards" v-model.number="numCards" @wheel="handleScroll" />
     </div>
 
     <div class="settings_item">
-      <label for="show-hints">Show hints:</label>
+      <label for="show-hints">Hints:</label>
       <input id="show-hints" type="checkbox" v-model="showHints" @change="showHintsChanged" />
     </div>
 
+    <input class="settings_item button" type="button" value="Undo Move" @click="undoMove"/>
     <input class="settings_item button" type="button" value="New Game" @click="newGame"/>
     <input class="settings_item button" type="button" value="Reset Game" @click="resetGame"/>
   </form>
@@ -33,6 +34,9 @@ export default {
     resetGame() {
       this.$emit("reset-game");
     },
+    undoMove() {
+      this.$emit("undo-move");
+    },
     handleScroll(event) {
       this.numCards += event.deltaY < 0 ? 1 : -1;
       this.newGame();
@@ -55,7 +59,7 @@ export default {
 
   background: linear-gradient(-90deg, rgba(255, 0, 0, 0.70), rgba(0, 128, 0, 0.70));
   width: 100%;
-  height: 35px;
+  padding: 5px 0px 5px 5px;
   margin-bottom: 25px;
 
   border: solid 1px;
@@ -65,12 +69,12 @@ export default {
 }
 
 .settings_item {
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 1vw;
+  margin-right: 1vw;
 }
 
 #num-cards {
-  width: 30px;
+  width: 25px;
   text-align: center;
   margin-left: 5px;
 }
