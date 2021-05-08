@@ -3,6 +3,7 @@
     @new-game="newGame"
     @reset-game="resetGame"
     @undo-move="undoMove"
+    :undoEnabled="undoStack.hasActions"
     @show-hints-changed="showHintsChanged"
   ></settings>
   <game-info

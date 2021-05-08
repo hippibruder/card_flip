@@ -3,11 +3,15 @@
     <svg viewBox="0 0 25 35"></svg>
     <div
       class="card"
-      :class="{ flipped: card.flipped, hint: isNextMove }"
+      :class="{
+        flipped: card.flipped,
+        hint: isNextMove,
+        visible: !card.removed,
+      }"
       v-show="!card.removed"
       @click="click"
     >
-      <div class="card-content" ref="content">
+      <div class="card-content">
         {{ card.index }}
       </div>
     </div>
@@ -39,6 +43,7 @@ s
 .card-wrapper {
   flex: 1;
   display: grid;
+  user-select: none;
 }
 
 .card-wrapper > * {
@@ -62,6 +67,14 @@ s
 
 .card-content {
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.visible.flipped {
+  cursor: pointer;
 }
 
 .flipped {

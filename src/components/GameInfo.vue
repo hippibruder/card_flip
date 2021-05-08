@@ -1,6 +1,6 @@
 <template>
   <div class="card-list-info">
-    <div>Flipped: {{ numFlipped }}/{{ numLeftover }}</div>
+    <div v-show="numLeftover">Flipped: {{ numFlipped }}/{{ numLeftover }}</div>
     <div v-if="showHints">
       <div v-show="!solvable && numLeftover">Not solvable!</div>
       <div v-show="solvable">Next move: {{ nextMove }}</div>

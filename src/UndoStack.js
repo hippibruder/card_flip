@@ -18,4 +18,8 @@ export default class UndoStack {
             item();
         }
     }
+
+    get hasActions() {
+        return this.stack.length > 0;
+    }
 }

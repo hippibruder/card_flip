@@ -7,12 +7,34 @@
 
     <div class="settings_item">
       <label for="show-hints">Hints:</label>
-      <input id="show-hints" type="checkbox" v-model="showHints" @change="showHintsChanged" />
+      <input
+        id="show-hints"
+        type="checkbox"
+        v-model="showHints"
+        @change="showHintsChanged"
+      />
     </div>
 
-    <input class="settings_item button" type="button" value="Undo Move" @click="undoMove"/>
-    <input class="settings_item button" type="button" value="New Game" @click="newGame"/>
-    <input class="settings_item button" type="button" value="Reset Game" @click="resetGame"/>
+    <input
+      class="settings_item button"
+      type="button"
+      value="⎌"
+      title="Undo Move"
+      @click="undoMove"
+      :disabled="!undoEnabled"
+    />
+    <input
+      class="settings_item button"
+      type="button"
+      value="New Game"
+      @click="newGame"
+    />
+    <input
+      class="settings_item button"
+      type="button"
+      value="Reset Game"
+      @click="resetGame"
+    />
   </form>
 </template>
 
@@ -20,6 +42,7 @@
 export default {
   name: "Settings",
   props: {
+    undoEnabled: Boolean,
   },
   data() {
     return {
@@ -54,18 +77,23 @@ export default {
 <style scoped>
 .settings {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 
-  background: linear-gradient(-90deg, rgba(255, 0, 0, 0.70), rgba(0, 128, 0, 0.70));
-  width: 100%;
+  background: linear-gradient(
+    -90deg,
+    rgba(255, 0, 0, 0.7),
+    rgba(0, 128, 0, 0.7)
+  );
   padding: 5px 0px 5px 5px;
   margin-bottom: 25px;
 
   border: solid 1px;
   border-color: slategray;
 
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.50);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .settings_item {
@@ -80,6 +108,6 @@ export default {
 }
 
 .settings_item.button {
-  font-size: 120%;
+  font-size: 1.1em;
 }
 </style>

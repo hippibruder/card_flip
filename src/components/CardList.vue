@@ -1,7 +1,7 @@
 <template>
   <div class="card-list">
     <card
-      v-for="c in cards"
+      v-for="c in cardsAdjusted"
       :card="c"
       :showHints="showHints"
       :nextMove="nextMove"
@@ -37,11 +37,16 @@ export default {
       });
     },
   },
+  computed: {
+    cardsAdjusted() {
+      this.$nextTick(() => {
+        this.adjustFontSize();
+      });
+      return this.cards;
+    },
+  },
   created() {
     this.adjustFontSizeDebounced = debounce(this.adjustFontSize, 50);
-  },
-  updated() {
-    this.adjustFontSize();
   },
   mounted() {
     this.ro = new ResizeObserver(this.adjustFontSizeDebounced).observe(
