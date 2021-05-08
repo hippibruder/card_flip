@@ -46,7 +46,7 @@ export default {
     },
   },
   created() {
-    this.adjustFontSizeDebounced = debounce(this.adjustFontSize, 50);
+    this.adjustFontSizeDebounced = debounce(this.adjustFontSize, 100);
   },
   mounted() {
     this.ro = new ResizeObserver(this.adjustFontSizeDebounced).observe(

@@ -2,7 +2,13 @@
   <form class="settings" @submit.prevent="newGame">
     <div class="settings_item">
       <label for="num-cards">Cards:</label>
-      <input id="num-cards" v-model.number="numCards" @wheel="handleScroll" />
+      <input
+        id="num-cards"
+        type="number"
+        min="0"
+        v-model.number="numCards"
+        @input="newGame"
+      />
     </div>
 
     <div class="settings_item">
@@ -25,7 +31,7 @@
     />
     <input
       class="settings_item button"
-      type="button"
+      type="submit"
       value="New Game"
       @click="newGame"
     />
@@ -52,6 +58,11 @@ export default {
   },
   methods: {
     newGame() {
+      this.numCards = Number(this.numCards);
+      if (this.numCards < 0) {
+        return;
+      }
+      
       this.$emit("new-game", this.numCards);
     },
     resetGame() {
@@ -59,10 +70,6 @@ export default {
     },
     undoMove() {
       this.$emit("undo-move");
-    },
-    handleScroll(event) {
-      this.numCards += event.deltaY < 0 ? 1 : -1;
-      this.newGame();
     },
     showHintsChanged() {
       this.$emit("show-hints-changed", this.showHints);
@@ -102,7 +109,7 @@ export default {
 }
 
 #num-cards {
-  width: 25px;
+  width: 37px;
   text-align: center;
   margin-left: 5px;
 }

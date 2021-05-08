@@ -1,7 +1,7 @@
 <template>
   <div class="card-wrapper">
-    <svg viewBox="0 0 25 35"></svg>
-    <div
+    <svg viewBox="0 0 5 7"></svg>
+    <button
       class="card"
       :class="{
         flipped: card.flipped,
@@ -14,7 +14,7 @@
       <div class="card-content">
         {{ card.index }}
       </div>
-    </div>
+    </button>
   </div>
 </template>
 
@@ -33,7 +33,11 @@ export default {
   },
   computed: {
     isNextMove() {
-      return this.showHints && this.card.index == this.nextMove;
+      let isNext = this.showHints && this.card.index == this.nextMove;
+      if (isNext) {
+        this.$refs.card.focus();
+      }
+      return isNext;
     },
   },
 };
@@ -52,10 +56,13 @@ s
 
 .card {
   margin: 5%;
+  min-width: 0;
+  padding: 0;
 
   border: 1px solid;
   border-color: rgba(0, 0, 0, 0.5);
 
+  font-size: 1vw;
   background-color: red;
 
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
@@ -71,6 +78,10 @@ s
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+.visible {
+  cursor: not-allowed;
 }
 
 .visible.flipped {
