@@ -11,7 +11,12 @@
     :solvable="gameSolver.solvable"
     :nextMove="gameSolver.nextMove"
   ></game-info>
-  <card-list :cards="game.cards" @card-clicked="cardClicked"></card-list>
+  <card-list
+    :cards="game.cards"
+    :showHints="showHints"
+    :nextMove="gameSolver.nextMove"
+    @card-clicked="cardClicked"
+  ></card-list>
   <game-over
     :win="game.win"
     :lose="game.lose"

@@ -17,7 +17,7 @@ class Game {
         this.cards = [];
         for (let index = 0; index < this.numCards; index++) {
             let flipped = Boolean(Math.floor(Math.random() * 2));
-            this.cards.push(new Card(flipped));
+            this.cards.push(new Card(flipped, index));
         }
     }
 
@@ -83,10 +83,11 @@ class Game {
 }
 
 class Card {
-    constructor(flipped) {
+    constructor(flipped, index) {
         this.flippedOriginal = flipped;
         this.flipped = flipped;
         this.removed = false;
+        this.index = index;
     }
 
     reset() {
@@ -120,14 +121,13 @@ class GameSolver {
     #getSubGames() {
         let games = [];
         let subGame = [];
-        this.game.cards.forEach((c, i) => {
+        this.game.cards.forEach(c => {
             if (c.removed) {
                 if (subGame.length > 0) {
                     games.push(subGame);
                     subGame = []
                 }
             } else {
-                c.index = i;
                 subGame.push(c);
             }
         });

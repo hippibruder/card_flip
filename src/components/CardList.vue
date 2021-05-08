@@ -1,18 +1,19 @@
 <template>
   <div class="card-list">
     <card
-      v-for="(c, i) in cards"
-      :flipped="c.flipped"
-      :removed="c.removed"
-      :index="i"
+      v-for="c in cards"
+      :card="c"
+      :showHints="showHints"
+      :nextMove="nextMove"
       @card-clicked="cardClicked"
-      :key="i"
+      :key="c.index"
     ></card>
   </div>
 </template>
 
 <script>
 import Card from "./Card.vue";
+import { debounce } from "../helpers.js";
 export default {
   name: "CardList",
   components: {
@@ -20,6 +21,8 @@ export default {
   },
   props: {
     cards: Array,
+    showHints: Boolean,
+    nextMove: Number,
   },
   emits: ["card-clicked"],
   methods: {
@@ -27,20 +30,26 @@ export default {
       this.$emit("card-clicked", index, flipped);
     },
     adjustFontSize() {
-      this.$nextTick(() => {
-        let cards = document.querySelectorAll(".card-content");
-        cards.forEach((el) => {
-          let size = el.clientWidth / 2;
-          el.style.fontSize = size + "px";
-        });
+      let cards = document.querySelectorAll(".card");
+      cards.forEach((el) => {
+        let size = el.clientWidth / 2;
+        el.style.fontSize = size + "px";
       });
     },
   },
   created() {
-    this.adjustFontSize();
+    this.adjustFontSizeDebounced = debounce(this.adjustFontSize, 50);
   },
   updated() {
     this.adjustFontSize();
+  },
+  mounted() {
+    this.ro = new ResizeObserver(this.adjustFontSizeDebounced).observe(
+      this.$el
+    );
+  },
+  beforeUnmount() {
+    this.ro.unobserve(this.$el);
   },
 };
 </script>
