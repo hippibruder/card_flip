@@ -1,5 +1,5 @@
 <template>
-  <div class="card-wrapper">
+  <div class="card-wrapper" @click="click">
     <svg viewBox="0 0 5 7"></svg>
     <button
       class="card"
@@ -9,7 +9,7 @@
         visible: !card.removed,
       }"
       v-show="!card.removed"
-      @click="click"
+      ref="card"
     >
       <div class="card-content">
         {{ card.index }}
@@ -34,7 +34,7 @@ export default {
   computed: {
     isNextMove() {
       let isNext = this.showHints && this.card.index == this.nextMove;
-      if (isNext) {
+      if (isNext && this.$refs.card) {
         this.$refs.card.focus();
       }
       return isNext;
@@ -86,6 +86,11 @@ s
 
 .visible.flipped {
   cursor: pointer;
+}
+
+.visible.flipped:hover {
+  position: relative;
+  top: 10%;
 }
 
 .flipped {

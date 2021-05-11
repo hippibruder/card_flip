@@ -64,6 +64,9 @@ export default {
         this.undoStack.addAction(undo)
       );
       this.gameSolver = new GameSolver(this.game);
+      this.$nextTick(() => {
+        this.adjustFontSize();
+      });
     },
     resetGame() {
       this.undoStack.reset();
@@ -82,6 +85,13 @@ export default {
       if (e.key === "z") {
         this.undoMove();
       }
+    },
+    adjustFontSize() {
+      let cards = document.querySelectorAll(".card");
+      cards.forEach((el) => {
+        let size = el.clientWidth / 2;
+        el.style.fontSize = size + "px";
+      });
     },
   },
   mounted() {

@@ -15,11 +15,12 @@ class Game {
     }
 
     #init() {
-        this.cards = [];
+        let cards = [];
         for (let index = 0; index < this.numCards; index++) {
             let flipped = Boolean(Math.floor(Math.random() * 2));
-            this.cards.push(new Card(flipped, index));
+            cards.push(new Card(flipped, index));
         }
+        this.cards = cards;
     }
 
     reset() {
@@ -30,7 +31,8 @@ class Game {
     }
 
     removeCard(index) {
-        if (!this.cards[index].flipped) {
+        let card = this.cards[index]
+        if (!card.flipped || card.removed) {
             return;
         }
 
@@ -106,8 +108,9 @@ class Card {
 class GameSolver {
     constructor(game) {
         this.game = game === undefined ? new Game() : game;
+        this.order = [];
+        this.updateOrder();
         this.game.registerOnChange(() => this.updateOrder());
-        this.updateOrder()
     }
 
     get nextMove() {
@@ -125,7 +128,7 @@ class GameSolver {
         this.order = this.getSolveOrder();
     }
 
-    #getSubGames() {
+    getSubGames() {
         let games = [];
         let subGame = [];
         this.game.cards.forEach(c => {
@@ -144,7 +147,7 @@ class GameSolver {
         return games;
     }
 
-    static #getSolveOrderForGame(game) {
+    static getSolveOrderForGame(game) {
         let order = [];
         let nextCardHigher = false;
         game.forEach(c => {
@@ -163,10 +166,10 @@ class GameSolver {
 
     getSolveOrder() {
         let solvable = true;
-        let subGames = this.#getSubGames();
+        let subGames = this.getSubGames();
         let order = [];
         for (const game of subGames) {
-            let subOrder = GameSolver.#getSolveOrderForGame(game);
+            let subOrder = GameSolver.getSolveOrderForGame(game);
             if (subOrder.length === 0) {
                 solvable = false;
                 break;

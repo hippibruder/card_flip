@@ -59,7 +59,7 @@ export default {
   methods: {
     newGame() {
       this.numCards = Number(this.numCards);
-      if (this.numCards < 0) {
+      if (this.numCards < 1) {
         return;
       }
       

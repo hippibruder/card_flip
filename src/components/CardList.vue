@@ -1,7 +1,7 @@
 <template>
   <div class="card-list">
     <card
-      v-for="c in cardsAdjusted"
+      v-for="c in cards"
       :card="c"
       :showHints="showHints"
       :nextMove="nextMove"
@@ -35,14 +35,6 @@ export default {
         let size = el.clientWidth / 2;
         el.style.fontSize = size + "px";
       });
-    },
-  },
-  computed: {
-    cardsAdjusted() {
-      this.$nextTick(() => {
-        this.adjustFontSize();
-      });
-      return this.cards;
     },
   },
   created() {
