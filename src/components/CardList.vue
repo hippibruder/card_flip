@@ -41,12 +41,16 @@ export default {
     this.adjustFontSizeDebounced = debounce(this.adjustFontSize, 100);
   },
   mounted() {
-    this.ro = new ResizeObserver(this.adjustFontSizeDebounced).observe(
-      this.$el
-    );
+    if (ResizeObserver) {
+      this.ro = new ResizeObserver(this.adjustFontSizeDebounced).observe(
+        this.$el
+      );
+    }
   },
   beforeUnmount() {
-    this.ro.unobserve(this.$el);
+    if (this.ro) {
+      this.ro.unobserve(this.$el);
+    }
   },
 };
 </script>

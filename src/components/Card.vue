@@ -1,5 +1,5 @@
 <template>
-  <div class="card-wrapper" @click="click">
+  <div class="card-wrapper" @click="click" data-testid="card-wrapper">
     <svg viewBox="0 0 5 7"></svg>
     <button
       class="card"
@@ -10,6 +10,7 @@
       }"
       v-show="!card.removed"
       ref="card"
+      data-testid="card"
     >
       <div class="card-content">
         {{ card.index }}
@@ -22,7 +23,10 @@
 export default {
   name: "Card",
   props: {
-    card: Object,
+    card: {
+      type: Object,
+      required: true,
+    },
     showHints: Boolean,
     nextMove: Number,
   },
@@ -34,8 +38,12 @@ export default {
   computed: {
     isNextMove() {
       let isNext = this.showHints && this.card.index == this.nextMove;
-      if (isNext && this.$refs.card) {
-        this.$refs.card.focus();
+      if (isNext) {
+        if (this.$refs.card) {
+          this.$refs.card.focus()
+        } else {
+          this.$nextTick(() => this.$refs.card.focus());
+        }
       }
       return isNext;
     },

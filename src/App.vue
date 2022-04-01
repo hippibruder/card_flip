@@ -32,7 +32,7 @@ import GameInfo from "./components/GameInfo.vue";
 import CardList from "./components/CardList.vue";
 import Settings from "./components/Settings.vue";
 import GameOver from "./components/GameOver.vue";
-import Game from "./Game.js";
+import { Game } from "./Game.js";
 import GameSolver from "./GameSolver.js"
 import UndoStack from "./UndoStack.js";
 
