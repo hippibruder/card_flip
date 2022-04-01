@@ -4,6 +4,9 @@ Game where you remove flipped (green) cards while flipping its neighbors.
 
 Game goal is to remove all cards.
 
+Hosted on: 
+https://hippibruder.github.io/card_flip/
+
 ## Project setup
 ```
 npm install
