@@ -1,5 +1,9 @@
 # card_flip
 
+Game where you remove flipped (green) cards while flipping its neighbors. 
+
+Game goal is to remove all cards.
+
 ## Project setup
 ```
 npm install
@@ -18,6 +22,11 @@ npm run build
 ### Lints and fixes files
 ```
 npm run lint
+```
+
+### Publish to GitHub Pages
+```
+git subtree push --prefix dist origin gh-pages
 ```
 
 ### Customize configuration
